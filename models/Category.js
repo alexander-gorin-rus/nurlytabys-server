@@ -19,6 +19,16 @@ const CategorySchema = mongoose.Schema({
     videos: {
         type: ObjectId,
         ref: "Video"
+    },
+    filePath: {
+        type: String
+    },
+    duration: {
+        type: String
+    },
+    thumbnail: {
+        type: String,
+        default: 0
     }
 }, 
     {

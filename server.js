@@ -13,6 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 app.use('/uploads', express.static('uploads'));
+app.use('/uploadsCategory', express.static('uploadsCategory'));
 app.use('/uploadsMainPageInfo', express.static('uploadsMainPageInfo'));
 
 //Import Mongo Database
