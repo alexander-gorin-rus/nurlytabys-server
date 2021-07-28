@@ -26,6 +26,12 @@ const CategorySchema = mongoose.Schema({
     duration: {
         type: String
     },
+    views: {
+        type: Number
+    },
+    duration: {
+        type: String
+    },
     thumbnail: {
         type: String,
         default: 0

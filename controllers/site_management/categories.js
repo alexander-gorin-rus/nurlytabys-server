@@ -1,8 +1,8 @@
+const multer = require('multer');
+const ffmpeg = require('fluent-ffmpeg');
 const Category = require('../../models/Category');
 const slugify = require('slugify');
 const Video = require('../../models/Video');
-const multer = require('multer');
-const ffmpeg = require('fluent-ffmpeg');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -69,6 +69,7 @@ exports.CategoryThumbnail = (req, res) => {
 exports.CategorySaveVideo = async (req, res) => {
 
     try {
+        
         req.body.slug = slugify(req.body.title);
         const newCategory = await new Category(req.body).save();
         res.json({
@@ -85,8 +86,14 @@ exports.CategorySaveVideo = async (req, res) => {
 
 exports.CategoryCreate = async (req, res) => {
     try {
-        const { name, description } = req.body;
-        const category = await Category({ name, description, slug: slugify(name) }).save()
+        const { 
+            name, 
+            description, 
+            filePath, 
+            duration, 
+            thumbnail 
+        } = req.body;
+        const category = await Category({ name, description, filePath, duration, thumbnail, slug: slugify(name) }).save()
         res.json(category)
     } catch (err) {
         return res
