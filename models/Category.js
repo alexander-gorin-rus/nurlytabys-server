@@ -35,6 +35,10 @@ const CategorySchema = mongoose.Schema({
     thumbnail: {
         type: String,
         default: 0
+    },
+    images: {
+        type: Array,
+        default: []
     }
 }, 
     {

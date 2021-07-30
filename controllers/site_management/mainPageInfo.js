@@ -17,7 +17,7 @@ var storage = multer.diskStorage({
         }
         cb(null, true)
     }
-  })
+  });
    
   var upload = multer({ storage: storage }).single("file")
 

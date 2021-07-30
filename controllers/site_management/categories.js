@@ -91,9 +91,10 @@ exports.CategoryCreate = async (req, res) => {
             description, 
             filePath, 
             duration, 
-            thumbnail 
+            thumbnail,
+            images 
         } = req.body;
-        const category = await Category({ name, description, filePath, duration, thumbnail, slug: slugify(name) }).save()
+        const category = await Category({ name, description, filePath, duration, thumbnail, images, slug: slugify(name) }).save()
         res.json(category)
     } catch (err) {
         return res
