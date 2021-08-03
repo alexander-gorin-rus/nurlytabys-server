@@ -27,10 +27,13 @@ const MainPageVideoSchema = new mongoose.Schema({
     duration: {
         type: String
     },
-    
     thumbnail: {
         type: String,
         default: 0
+    },
+    images: {
+        type: Array,
+        default: []
     }
 }, {timestamps: true});
 
