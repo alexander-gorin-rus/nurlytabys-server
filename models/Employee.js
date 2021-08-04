@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Schema;
 
 const EmployeeSchema = new mongoose.Schema({
     name:{
@@ -26,8 +27,8 @@ const EmployeeSchema = new mongoose.Schema({
         trim: true
     },
     role:{
-        type: String,
-        default: "менеджер"
+        type: ObjectId,
+        ref: "Roles"
     }
 }, {timestamps: true});
 

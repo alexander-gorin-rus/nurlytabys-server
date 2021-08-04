@@ -102,3 +102,40 @@ exports.employeeLogin = async (req, res) => {
       res.status(500).send('Server error');
     }
 }
+
+exports.employeeList = async (req, res) => {
+  try {
+    const employees = await Employee.find();
+    res.json({
+      list: employees
+    })
+  } catch (err) {
+    res.status(404).json({
+      errors: [{msg: "Список сотрудников пуст"}]
+    })
+  }
+}
+
+exports.GetEmployeeById = async (req, res) => {
+  try {
+      const employee = await Employee.findById(req.params.id);
+      if(!employee){
+          return res.status(404).json({
+              errors: [{
+                  msg: "Такой сотрудник не найден"
+              }]
+          })
+      }else{
+          res.json({
+              success: true,
+              employee
+          })
+      }
+  } catch (err) {
+      return res
+          .status(400)
+          .json({ errors: [{ 
+              msg: 'Ошибка при отображении сотрудника' 
+      }]});
+  }
+}
