@@ -20,9 +20,6 @@ const VideoSchema = new mongoose.Schema({
         type: ObjectId,
         ref: "Category"
     },
-    // category: {
-    //     type: String
-    // },
     filePath: {
         type: String
     },

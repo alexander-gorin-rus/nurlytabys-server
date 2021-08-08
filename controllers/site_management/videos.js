@@ -143,6 +143,6 @@ exports.GetSingleVideo = async (req, res) => {
         }
         res.status(200).json({success: true, video})
     } catch (error) {
-        
+        console.log(error)
     }
 }

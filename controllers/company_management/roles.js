@@ -1,11 +1,14 @@
-const Role = require('../../models/Roles');
+const Employee = require('../../models/Employee');
+const Role = require('../../models/Role');
 
 exports.CreateRole = async (req, res) => {
     try {
-        const role = await new Role(req.body).save();
-        res.json({
-            success: true,
-            role})
+        const role = await new Role(req.body)
+            .save();
+            res.json({
+                success: true,
+                role
+            })
         // if(role){
         //     return res.json({
         //         msg: "Роль с таким названием уже создана"
@@ -43,25 +46,38 @@ exports.GetAllRoles = async (req, res) => {
 exports.GetRoleById = async (req, res) => {
     try {
         const role = await Role.findById(req.params.id);
-        if(!role){
-            return res.status(404).json({
-                errors: [{
-                    msg: "Такой роли не найдено"
-                }]
-            })
-        }else{
-            res.json({
-                success: true,
-                role
-            })
-        }
+        //res.status(200).json(category)
+        const employee = await Employee.find({ role })
+            .populate('role')
+            .exec();
+        res.json({
+            role,
+            employee
+        });
     } catch (err) {
-        return res
-            .status(400)
-            .json({ errors: [{ 
-                msg: 'Ошибка при отображении ролей' 
-        }]});
+        console.log(err);
     }
+    // try {
+    //     const role = await Role.findById(req.params.id);
+    //     if(!role){
+    //         return res.status(404).json({
+    //             errors: [{
+    //                 msg: "Такой роли не найдено"
+    //             }]
+    //         })
+    //     }else{
+    //         res.json({
+    //             success: true,
+    //             role
+    //         })
+    //     }
+    // } catch (err) {
+    //     return res
+    //         .status(400)
+    //         .json({ errors: [{ 
+    //             msg: 'Ошибка при отображении ролей' 
+    //     }]});
+    // }
 }
 
 exports.UpdateRole = async (req, res) => {

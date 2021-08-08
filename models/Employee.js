@@ -28,7 +28,11 @@ const EmployeeSchema = new mongoose.Schema({
     },
     role:{
         type: ObjectId,
-        ref: "Roles"
+        ref: "Role"
+    },
+    boss:{
+        type: Number,
+        default: 0
     }
 }, {timestamps: true});
 
