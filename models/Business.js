@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+// const moment = require('moment-timezone');
+// const dateKz = moment.tz.names("Qazakhstan/Qaragandy")
 
 const BusinessSchema = mongoose.Schema({
     title: {
@@ -10,7 +12,8 @@ const BusinessSchema = mongoose.Schema({
         required: true
     },
     start: {
-        type: Date
+        type: Date,
+        default: Date.now()
     },
     finish: {
         type: Date
