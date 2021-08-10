@@ -172,3 +172,7 @@ exports.GetCategoryToUpdate = async (req, res) => {
         
     }
 }
+
+exports.Test = async (req, res) => {
+    
+}
