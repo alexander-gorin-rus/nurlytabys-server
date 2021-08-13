@@ -17,5 +17,8 @@ router.get('/main-page-get-video', MainPageGetVideo);
 router.delete('/main-page-delete-video/:slug', auth, MainPageDeleteVideo);
 router.put('/main-page-update-video/:id', auth, MainPageUpdateVideo);
 router.get('/main-page-get-info/:id', GetMainPageInfo)
+router.get('/test', (req, res) => {
+    res.send('Test CI/CD')
+})
 
 module.exports = router
