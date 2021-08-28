@@ -2,12 +2,13 @@ const Business = require('../../models/Business');
 
 exports.CreateBusiness = async (req, res) => {
     try {
-        const business = await new Business(req.body)
+        const business = await new Business(req.body.values)
             .save();
-            res.json({
-                success: true,
-                business
-            });
+            res.send(business)
+            // res.json({
+            //     success: true,
+            //     business
+            // });
     } catch (err) {
         console.log(err);
         return res
@@ -20,7 +21,7 @@ exports.CreateBusiness = async (req, res) => {
 
 exports.GetAllBusinesses = async (req, res) => {
     try {
-        const list = await Business.find();
+        const list = await Business.find({});
         res.json({
             success: true,
             list
@@ -34,6 +35,20 @@ exports.GetAllBusinesses = async (req, res) => {
             }]});
         }
     }
+
+    exports.ShowAllBusinesses = async (req, res) => {
+        try {
+            const businessList = await Business.find({}).exec();
+            res.send(businessList)
+        } catch (err) {
+            console.log(err);
+            return res
+                .status(400)
+                .json({ errors: [{ 
+                    msg: 'Ошибка при отображении списка дел' 
+                }]});
+            }
+        }
 
 exports.GetBusinessById = async (req, res) => {
     try {

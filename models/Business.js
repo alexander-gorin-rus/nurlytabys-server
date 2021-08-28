@@ -5,18 +5,28 @@ const mongoose = require('mongoose');
 const BusinessSchema = mongoose.Schema({
     title: {
         type: String,
-        required: true
+        // required: true
     },
     content: {
         type: String,
         required: true
     },
     start: {
-        type: Date,
-        default: Date.now()
+        type: String
+        // type: Date,
+        // default: Date.now()
     },
     finish: {
-        type: Date
+        type: String
+        // type: Date
+    },
+    allDay: {
+        type: Boolean,
+        default: true
+    },
+    done: {
+        type: Boolean,
+        default: false
     }
 }, {timestamp:true}
 );
