@@ -14,7 +14,7 @@ exports.authEmployee = async (req, res) => {
 
 exports.employeeRegister = async (req, res) => {
   
-    const { name, lastName, email, phone, password } = req.body;
+    const { name, lastName, email, phone, password, role } = req.body;
 
     try {
       //see if the employee exists
@@ -30,7 +30,8 @@ exports.employeeRegister = async (req, res) => {
         lastName,
         phone,
         email,
-        password
+        password,
+        role
       });
 
       //encrypt password

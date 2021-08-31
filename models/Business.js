@@ -18,11 +18,11 @@ const BusinessSchema = mongoose.Schema({
     },
     finish: {
         type: String
-        // type: Date
+        //type: Date
     },
     allDay: {
         type: Boolean,
-        default: true
+        default: false
     },
     done: {
         type: Boolean,

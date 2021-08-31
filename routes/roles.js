@@ -11,7 +11,7 @@ const {
 const router = express.Router();
 
 router.post('/create-role', auth, CreateRole);
-router.get('/get-roles', auth, GetAllRoles);
+router.get('/get-roles', GetAllRoles);
 router.get('/get-role-by-id/:id', auth, GetRoleById);
 router.put('/update-role/:id', auth, UpdateRole);
 router.delete('/delete-role/:id', auth, DeleteRole)
