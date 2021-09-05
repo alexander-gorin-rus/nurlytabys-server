@@ -4,13 +4,29 @@ const bcrypt = require('bcryptjs');
 
 exports.authEmployee = async (req, res) => {
     try {
-        const employee = await Employee.findById(req.employee.id).select('-password');
+        const employee = await Employee.findById(req.employee.id);
         res.json(employee)
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
 }
+
+// exports.getSingleEmployee = async (req, res) => {
+//   try {
+//     let employee = await Employee.findById(req.params.id);
+//     if(!employee){
+//       return res.status(404).json({
+//         error: 'Такой сотрудник не найден'
+//       })
+//     }else{
+//       res.status(200).json(employee)
+//     }
+//   } catch (err) { 
+//     console.error(err.message);
+//     res.status(500).send('Server Error');
+//   }
+// }
 
 exports.employeeRegister = async (req, res) => {
   
@@ -177,14 +193,60 @@ exports.GetEmployeeById = async (req, res) => {
   }
 }
 
+
 exports.UpdateEmployee = async (req, res) => {
-  try {
-    const updated_employee = await Employee.findByIdAndUpdate(req.params.id, req.body, {new: true} );
-    res.json(updated_employee)
-} catch (err) {
-    console.log(err)
-}
-}
+    if (req.body.password) {
+      try {
+        const salt = await bcrypt.genSalt(10);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
+      } catch (err) {
+        return res.status(500).json(err);
+      }
+    }
+    try {
+      const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, {
+        new: true
+      });
+      res.status(200).json(employee);
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  
+  // if (req.body.userId === req.params.id) {
+  //   if (req.body.password) {
+  //     try {
+  //       const salt = await bcrypt.genSalt(10);
+  //       req.body.password = await bcrypt.hash(req.body.password, salt);
+  //     } catch (err) {
+  //       return res.status(500).json(err);
+  //     }
+  //   }
+  //   try {
+  //     const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, {
+  //       new: true
+  //     });
+  //     res.status(200).json(employee);
+  //   } catch (err) {
+  //     return res.status(500).json(err);
+  //   }
+  // } else {
+  //   return res.status(403).json("You can update only your account!");
+  // }
+};
+
+
+
+
+// exports.UpdateEmployee = async (req, res) => {
+//   try {
+//     const updated_employee = await Employee.findByIdAndUpdate(req.params.id, req.body, {new: true} );
+//     const salt = await bcrypt.genSalt(10);
+//     updated_employee.password = await bcrypt.hash(req.body.password, salt);
+//     res.json(updated_employee)
+// } catch (err) {
+//     console.log(err)
+// }
+// }
 
 exports.DeleteEmployee = async (req, res) => {
   try {

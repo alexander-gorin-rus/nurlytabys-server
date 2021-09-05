@@ -15,9 +15,14 @@ const router = express.Router();
 router.post('/register', registerValidation, employeeRegister);
 router.get('/auth-employee', auth, authEmployee);
 router.post('/login', loginValidation, employeeLogin);
+//router.get('/employee-list', employeeList);
 router.get('/employee-list', auth, employeeList);
+
+//router.get('/get-employee-by-id/:id', GetEmployeeById);
 router.get('/get-employee-by-id/:id', auth, GetEmployeeById);
-router.put('/update-employee/:id', auth, UpdateEmployee);
+
+router.put('/update-employee/:id', UpdateEmployee);
+//router.put('/update-employee/:id', auth, UpdateEmployee);
 router.delete('/delete-employee/:id', auth, DeleteEmployee);
 
 module.exports = router;

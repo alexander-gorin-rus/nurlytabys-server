@@ -33,7 +33,39 @@ const EmployeeSchema = new mongoose.Schema({
     boss:{
         type: Number,
         default: 0
-    }
+    },
+    profilePicture: {
+        type: String,
+        default: "",
+      },
+      coverPicture: {
+        type: String,
+        default: "",
+      },
+      followers: {
+        type: Array,
+        default: [],
+      },
+      followings: {
+        type: Array,
+        default: [],
+      },
+      desc: {
+        type: String,
+        max: 50,
+      },
+      city: {
+        type: String,
+        max: 50,
+      },
+      from: {
+        type: String,
+        max: 50,
+      },
+      relationship: {
+        type: Number,
+        enum: [1, 2, 3],
+      },
 }, {timestamps: true});
 
 module.exports = mongoose.model("Employee", EmployeeSchema)
