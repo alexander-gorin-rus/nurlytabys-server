@@ -1,10 +1,12 @@
 const Employee = require('../models/Employee');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const Task = require('../models/Task');
 
 exports.authEmployee = async (req, res) => {
     try {
-        const employee = await Employee.findById(req.employee.id);
+        const employee = await Employee.findById(req.employee.id)
+          .populate('role')
         res.json(employee)
     } catch (err) {
         console.error(err.message);
@@ -12,21 +14,6 @@ exports.authEmployee = async (req, res) => {
     }
 }
 
-// exports.getSingleEmployee = async (req, res) => {
-//   try {
-//     let employee = await Employee.findById(req.params.id);
-//     if(!employee){
-//       return res.status(404).json({
-//         error: 'Такой сотрудник не найден'
-//       })
-//     }else{
-//       res.status(200).json(employee)
-//     }
-//   } catch (err) { 
-//     console.error(err.message);
-//     res.status(500).send('Server Error');
-//   }
-// }
 
 exports.employeeRegister = async (req, res) => {
   
@@ -121,30 +108,6 @@ exports.employeeLogin = async (req, res) => {
 }
 
 exports.employeeList = async (req, res) => {
-  // try {
-  //   const employees = await Employee.find()
-  //   res.json({
-  //     list: employees
-  //   })
-  // } catch (err) {
-  //   res.status(404).json({
-  //     errors: [{msg: "Список сотрудников пуст"}]
-  //   })
-  // }
-
-  // const employees = await Employee.find({})
-  //       .populate('role')
-  //   try {
-  //       if(!employees){
-  //           return res.status(404).json({errors: [{msg: 'Список сотрудников пуст'}]})
-  //       }
-  //       res.json({
-  //         list: employees
-  //       })
-  //   } catch (error) {
-  //       console.log(error)
-  //   }
-
   try {
     const employees = await Employee.find({})
       .populate('role')
@@ -159,16 +122,6 @@ exports.employeeList = async (req, res) => {
 }
 
 exports.GetEmployeeById = async (req, res) => {
-  // const employee = await Employee.findById(req.params.id)
-  //       .populate('role')
-  //   try {
-  //       if(!employee){
-  //           return res.status(404).json({errors: [{msg: 'Такой сотрудник не найден'}]})
-  //       }
-  //       res.status(200).json({success: true, employee})
-  //   } catch (error) {
-  //       console.log(error)
-  //   }
   try {
       const employee = await Employee.findById(req.params.id)
       .populate('role')
@@ -193,6 +146,21 @@ exports.GetEmployeeById = async (req, res) => {
   }
 }
 
+exports.GetEmployeeWithTasks = async (req, res) => {
+  try {
+    const employee = await Employee.findById(req.params.id);
+    const tasks = await Task.find({ employee })
+      .populate('employee')
+      .exec();
+      res.json({
+        employee,
+        tasks
+      })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 
 exports.UpdateEmployee = async (req, res) => {
     if (req.body.password) {
@@ -212,26 +180,6 @@ exports.UpdateEmployee = async (req, res) => {
       return res.status(500).json(err);
     }
   
-  // if (req.body.userId === req.params.id) {
-  //   if (req.body.password) {
-  //     try {
-  //       const salt = await bcrypt.genSalt(10);
-  //       req.body.password = await bcrypt.hash(req.body.password, salt);
-  //     } catch (err) {
-  //       return res.status(500).json(err);
-  //     }
-  //   }
-  //   try {
-  //     const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, {
-  //       new: true
-  //     });
-  //     res.status(200).json(employee);
-  //   } catch (err) {
-  //     return res.status(500).json(err);
-  //   }
-  // } else {
-  //   return res.status(403).json("You can update only your account!");
-  // }
 };
 
 

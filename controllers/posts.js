@@ -2,7 +2,7 @@ const Post = require('../models/Post');
 const Employee = require('../models/Employee');
 
 exports.CreatePost = async (req, res) => {
-    const newPost = new Post;
+    const newPost = new Post(req.body);
 
     try {
         const savedPost = await newPost.save();

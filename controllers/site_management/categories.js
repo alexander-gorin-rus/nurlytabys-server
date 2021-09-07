@@ -142,7 +142,6 @@ exports.UpdateCategory = async (req, res) => {
 exports.GetOneCategory = async (req, res) => {
     try {
         const category = await Category.findOne({slug: req.params.slug});
-        //res.status(200).json(category)
         const videos = await Video.find({ category })
             .populate('category')
             .exec();

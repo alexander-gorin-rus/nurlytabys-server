@@ -9,15 +9,6 @@ exports.CreateRole = async (req, res) => {
                 success: true,
                 role
             })
-        // if(role){
-        //     return res.json({
-        //         msg: "Роль с таким названием уже создана"
-        //     })
-        // }else{
-        //     res.json({
-        //         success: true,
-        //         role})
-        // }
     } catch (err) {
         return res
             .status(400)
@@ -29,7 +20,8 @@ exports.CreateRole = async (req, res) => {
 
 exports.GetAllRoles = async (req, res) => {
     try {
-        const roles = await Role.find();
+        const roles = await Role.find({})
+        .populate('employee')
         res.json({
             success: true,
             roles
@@ -45,8 +37,7 @@ exports.GetAllRoles = async (req, res) => {
 
 exports.GetRoleById = async (req, res) => {
     try {
-        const role = await Role.findById(req.params.id);
-        //res.status(200).json(category)
+        const role = await Role.findById(req.params.id)
         const employee = await Employee.find({ role })
             .populate('role')
             .exec();
