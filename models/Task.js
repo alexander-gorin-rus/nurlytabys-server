@@ -13,8 +13,12 @@ const TaskSchema = new mongoose.Schema({
         type: String
     },
     completed: {
-        type: Boolean,
-        default: false
+        type: String,
+        default: 'Не выполнено',
+        enum: [
+            'Выполнено',
+            'Не выполнено'
+    ]
     },
     feedback: {
         type: String

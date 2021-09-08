@@ -85,3 +85,17 @@ exports.GetEmployeeTasks = async (req, res) => {
         res.status(500).json(err);
       }
 }
+
+exports.TaskStatus = async (req, res) => {
+  try {
+    const { taskId, completed } = req.body;
+    let updatedTask = await Task.findByIdAndUpdate(
+      taskId,
+      { completed },
+      { new: true }
+    ).exec()
+    res.json(updatedTask)
+  } catch (err) {
+    console.log(err)
+  }
+}
