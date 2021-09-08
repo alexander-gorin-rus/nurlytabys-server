@@ -99,3 +99,12 @@ exports.TaskStatus = async (req, res) => {
     console.log(err)
   }
 }
+
+exports.DeleteTask = async (req, res) => {
+  try {
+    const deleted = await Task.findByIdAndDelete(req.params.id)
+    res.json(deleted)
+  } catch (err) {
+    console.log(err)
+  }
+}
