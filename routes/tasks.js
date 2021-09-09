@@ -5,7 +5,8 @@ const {
     GetTaskById,
     DeleteTask,
     GetEmployeeTasks,
-    TaskStatus
+    TaskStatus,
+    GetAllTasks
 
 } = require('../controllers/company_management/tasks');
 const router = express.Router();
@@ -17,6 +18,7 @@ router.get('/get-task/:id', GetTaskById);
 router.get('/get-employee-tasks/:employeename', GetEmployeeTasks);
 router.put('/task-status', TaskStatus);
 router.delete('/task-delete/:id', DeleteTask);
+router.get('/get-all-tasks/:id', GetAllTasks)
 
 
 module.exports = router;

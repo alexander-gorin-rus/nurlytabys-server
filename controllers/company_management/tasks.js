@@ -108,3 +108,14 @@ exports.DeleteTask = async (req, res) => {
     console.log(err)
   }
 }
+
+exports.GetAllTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({ employeeId: employee._id })
+      .populate('employee')
+      .exec();
+      res.json(tasks)
+  } catch (err) {
+    console.log(err)
+  }
+}
