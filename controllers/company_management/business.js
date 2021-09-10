@@ -5,10 +5,6 @@ exports.CreateBusiness = async (req, res) => {
         const business = await new Business(req.body.values)
             .save();
             res.send(business)
-            // res.json({
-            //     success: true,
-            //     business
-            // });
     } catch (err) {
         console.log(err);
         return res
