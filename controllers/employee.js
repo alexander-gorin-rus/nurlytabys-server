@@ -156,7 +156,7 @@ exports.GetEmployeeById = async (req, res) => {
 exports.GetEmployeeWithTasks = async (req, res) => {
   try {
     const employee = await Employee.findById(req.params.id);
-    const tasks = await Task.find({ employee })
+    const tasks = await Task.find({ employee: employee._id })
       .populate('employee')
       .exec();
       res.json({

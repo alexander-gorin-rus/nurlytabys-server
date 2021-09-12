@@ -3,7 +3,7 @@ const { ObjectId } = mongoose.Schema
 
 
 const EmployeeBusinessSchema = mongoose.Schema({
-    employee: {
+    employeeId: {
         type: ObjectId,
         ref: 'Employee'
     },

@@ -18,8 +18,10 @@ exports.CreateEmployeeBusiness = async (req, res) => {
 
 exports.GetEmployeeBusiness = async (req, res) => {
     try {
-        const employee = await Employee()
-    } catch (err) {
-        console.log(err)
-    }
+        const employee = await Employee.findById(req.params.id);
+        const employee_business = await EmployeeBusiness.find({ employeeId: employee._id });
+        res.status(200).json(employee_business);
+        } catch (err) {
+        res.status(500).json(err);
+        }
 }
