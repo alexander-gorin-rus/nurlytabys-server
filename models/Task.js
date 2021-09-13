@@ -6,7 +6,10 @@ const TaskSchema = new mongoose.Schema({
         type: ObjectId,
         ref: "Employee"
     },
-    description: {
+    title: {
+        type: String
+    },
+    content: {
         type: String
     },
     img: {
@@ -28,7 +31,8 @@ const TaskSchema = new mongoose.Schema({
         default: Date.now()
     },
     finish: {
-        type: Date
+        type: Date,
+        //type: String
     }
 },
 {timestamps: true}

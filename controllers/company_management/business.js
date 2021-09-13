@@ -32,20 +32,6 @@ exports.GetAllBusinesses = async (req, res) => {
         }
     }
 
-    exports.ShowAllBusinesses = async (req, res) => {
-        try {
-            const businessList = await Business.find({}).exec();
-            res.send(businessList)
-        } catch (err) {
-            console.log(err);
-            return res
-                .status(400)
-                .json({ errors: [{ 
-                    msg: 'Ошибка при отображении списка дел' 
-                }]});
-            }
-        }
-
 exports.GetBusinessById = async (req, res) => {
     try {
         const business = await Business.findById(req.params.id);
