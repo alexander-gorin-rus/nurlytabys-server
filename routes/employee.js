@@ -16,8 +16,8 @@ const router = express.Router();
 router.post('/register', registerValidation, employeeRegister);
 router.get('/auth-employee', auth, authEmployee);
 router.post('/login', loginValidation, employeeLogin);
-//router.get('/employee-list', employeeList);
-router.get('/employee-list', auth, employeeList);
+router.get('/employee-list', employeeList);
+//router.get('/employee-list', auth, employeeList);
 //router.get('/get-employee-with-tasks', auth, GetEmployeeWithTasks);
 router.get('/get-employee-with-tasks/:id', GetEmployeeWithTasks);
 
