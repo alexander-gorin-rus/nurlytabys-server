@@ -1,5 +1,6 @@
 const Task = require('../../models/Task');
 const Employee = require('../../models/Employee');
+const Role = require('../../models/Role');
 
 exports.CreateTask = async (req, res) => {
   try {
@@ -46,15 +47,24 @@ exports.DeleteTask = async (req, res) => {
       }
 }
 
+exports.GetTasksByRoleId = async (req, res) => {
+  try {
+    const role = await Role.findById(req.params.id);
+    const tasks = await Task.find({ role: role._id })
+      .populate('role')
+      res.status(200).json({tasks, length: tasks.length});
+    } catch (err) {
+      res.status(500).json(err);
+    }
+}
+
 exports.GetTaskById = async (req, res) => {
     try {
-        const task = await Task.findById(req.params.id);
-        const employee = await Employee.find({ task })
-            .populate('task')
-            .exec();
+        const task = await Task.findById(req.params.id)
+          .populate('role')
+          .exec();      
         res.json({
-          task, 
-          employee
+          task
         });
       } catch (err) {
         res.status(500).json(err);
@@ -109,12 +119,16 @@ exports.DeleteTask = async (req, res) => {
   }
 }
 
-exports.GetAllEmployeeTasks = async (req, res) => {
+exports.GetAllTasks = async (req, res) => {
   try {
-    const user = await Employee.findById(req.params.id);
-    const tasks = await Task.find({ employee: user._id })
-      res.status(200).json(tasks);
-    } catch (err) {
-      res.status(500).json(err);
-    }
+    const tasks = await Task.find({})
+      .populate('role')
+      .exec()
+    res.status(200).json({
+      tasks,
+      length: tasks.length
+    })
+  } catch (err) {
+    res.status(500).json(err)
+  }
 }

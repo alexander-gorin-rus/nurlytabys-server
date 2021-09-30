@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema
 
 const TaskSchema = new mongoose.Schema({
-    employee: {
+    role: [{
         type: ObjectId,
-        ref: "Employee"
-    },
+        ref: "Role"
+    }],
     title: {
         type: String
     },
@@ -31,8 +31,8 @@ const TaskSchema = new mongoose.Schema({
         default: Date.now()
     },
     finish: {
-        type: Date,
-        //type: String
+        //type: Date,
+        type: String
     }
 },
 {timestamps: true}
