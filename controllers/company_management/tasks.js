@@ -33,19 +33,19 @@ exports.UpdateTask = async (req, res) => {
       }
 }
 
-exports.DeleteTask = async (req, res) => {
-    try {
-        const task = await Task.findById(req.params.id);
-        if (task.employeeId === req.body.employeeId) {
-          await task.deleteOne();
-          res.status(200).json("the task has been deleted");
-        } else {
-          res.status(403).json("you can delete only your task");
-        }
-      } catch (err) {
-        res.status(500).json(err);
-      }
-}
+// exports.DeleteTask = async (req, res) => {
+//     try {
+//         const task = await Task.findById(req.params.id);
+//         if (task.employeeId === req.body.employeeId) {
+//           await task.deleteOne();
+//           res.status(200).json("the task has been deleted");
+//         } else {
+//           res.status(403).json("you can delete only your task");
+//         }
+//       } catch (err) {
+//         res.status(500).json(err);
+//       }
+// }
 
 exports.GetTasksByRoleId = async (req, res) => {
   try {

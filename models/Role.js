@@ -11,10 +11,10 @@ const RoleSchema = new mongoose.Schema({
         type: ObjectId,
         ref: "Employee"
     },
-    task:[{
-        type: ObjectId,
-        ref: "Task"
-    }],
+    // task:[{
+    //     type: ObjectId,
+    //     ref: "Task"
+    // }],
 }, {timestamps: true});
 
 module.exports = mongoose.model("Role", RoleSchema)

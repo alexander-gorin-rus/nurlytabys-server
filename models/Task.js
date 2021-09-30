@@ -2,10 +2,12 @@ const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema
 
 const TaskSchema = new mongoose.Schema({
-    role: [{
-        type: ObjectId,
-        ref: "Role"
-    }],
+    role: [
+        {
+            type: ObjectId,
+            ref: "Role"
+        }
+    ],
     title: {
         type: String
     },
@@ -15,17 +17,30 @@ const TaskSchema = new mongoose.Schema({
     img: {
         type: String
     },
-    completed: {
-        type: String,
-        default: 'Не выполнено',
-        enum: [
-            'Выполнено',
-            'Не выполнено'
-    ]
-    },
-    feedback: {
-        type: String
-    },
+    completed: [
+        {
+            type: ObjectId,
+            ref: "Role"
+        }
+    ],
+    comments: [
+        {
+            type: ObjectId,
+            ref: "Role"
+        }
+    ],
+    opened: [
+        {
+            type: ObjectId,
+            ref: "Role"
+        }
+    ],
+    downloadedFiles: [
+        {
+            type: ObjectId,
+            ref: "Role"
+        }
+    ],
     start: {
         type: Date,
         default: Date.now()
