@@ -14,31 +14,52 @@ const TaskSchema = new mongoose.Schema({
     content: {
         type: String
     },
-    img: {
-        type: String
-    },
+    // ratings: [
+    //     {
+    //         star: Number,
+    //         postedBy: {
+    //             type: ObjectId,
+    //             ref: 'User'
+    //         }
+    //     }
+    // ],
     completed: [
         {
-            type: ObjectId,
-            ref: "Role"
+            done: Boolean,
+            default: false,
+            byEmployee: {
+                type: ObjectId,
+                ref: "Role"
+            }
         }
     ],
     comments: [
         {
-            type: ObjectId,
-            ref: "Role"
+            comment: String,
+            byEmployee: {
+                type: ObjectId,
+                ref: "Role"
+            }
         }
     ],
     opened: [
         {
-            type: ObjectId,
-            ref: "Role"
+            open: Boolean,
+            default: false,
+            byEmployee: {
+                type: ObjectId,
+                ref: "Role"
+            }
         }
     ],
     downloadedFiles: [
         {
-            type: ObjectId,
-            ref: "Role"
+            files: Array,
+            default: [],
+            byEmployee: {
+                type: ObjectId,
+                ref: "Role"
+            }
         }
     ],
     start: {
