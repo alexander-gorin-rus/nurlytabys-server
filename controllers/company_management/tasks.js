@@ -34,21 +34,34 @@ exports.UpdateTask = async (req, res) => {
 }
 
 
-exports.GetTasksByRoleId = async (req, res) => {
+// exports.GetTasksByRoleId = async (req, res) => {
+//   try {
+//     const role = await Role.findById(req.params.id);
+//     const tasks = await Task.find({ role: role._id })
+//       .populate('role')
+//       res.status(200).json({tasks, length: tasks.length});
+//     } catch (err) {
+//       res.status(500).json(err);
+//     }
+// }
+
+exports.GetTasksByEmployee = async (req, res) => {
   try {
-    const role = await Role.findById(req.params.id);
-    const tasks = await Task.find({ role: role._id })
-      .populate('role')
+    const employee = await Employee.findById(req.params.id);
+    const tasks = await Task.find({ employee: employee._id })
+      .populate('employee')
+      .populate('comments')
       res.status(200).json({tasks, length: tasks.length});
     } catch (err) {
       res.status(500).json(err);
     }
 }
 
+
 exports.GetTaskById = async (req, res) => {
     try {
         const task = await Task.findById(req.params.id)
-          .populate('role')
+          .populate('employee')
           .exec();      
         res.json({
           task
@@ -95,7 +108,7 @@ exports.DeleteTask = async (req, res) => {
 exports.GetAllTasks = async (req, res) => {
   try {
     const tasks = await Task.find({})
-      .populate('role')
+      .populate('employee')
       .exec()
     res.status(200).json({
       tasks,
@@ -106,38 +119,45 @@ exports.GetAllTasks = async (req, res) => {
   }
 }
 
-// exports.UpdateTaskByEmployee = async (req, res) => {
- 
-//     const task = await Task.findById(req.params.taskId).exec();
-//     const employee = await Employee.findById(req.params.id).exec();
-//     const { comment } = req.body;
+exports.UpdateTaskByEmployee = async (req, res) => {
+    const employee = await Employee.findById(req.employee.id).exec();
+    const { comment } = req.body;
+    const task = await Task.findByIdAndUpdate(req.params.taskId, 
+      {
+        $push: {comments: {comment, byEmployee: employee._id}}
+      },
+      { new: true }
+    )
+    .exec();
+    res.json(task)
 
-//     let isExistingObject = await task.comments.find(
-//       (elem) => elem.byEmployee.toString() === employee._id.toString()
-//     )
+
+  //   let isExistingObject = await task.comments.find(
+  //     (elem) => elem.byEmployee.toString() === employee._id.toString()
+  //   )
      
-//   if(isExistingObject === undefined){
-//     let commentAddedToTask = await Task.findByIdAndUpdate(
-//       task._id,
-//       {
-//         $push: {comments: {comment, byEmployee: employee._id}}
-//       },
-//       { new: true }
-//     ).exec()
-//     console.log('Comment was successfully added to task', commentAddedToTask);
-//     res.json(commentAddedToTask)
-//   }else{
-//     const commentUpdatedInTask = await Task.updateOne(
-//       {
-//         comments: {$elemMatch: commentAddedToTask}
-//       },
-//       { $set: {"comments.$.comment": comment} },
-//       { new: true }
-//     ).exec();
-//     console.log('Comment was successfully changed');
-//     res.json(commentUpdatedInTask)
-//   }
-// }
+  // if(isExistingObject === undefined){
+  //   const commentAddedToTask = await Task.findByIdAndUpdate(
+  //     task._id,
+  //     {
+  //       $push: {comments: {comment, byEmployee: employee._id}}
+  //     },
+  //     { new: true }
+  //   ).exec()
+  //   console.log('Comment was successfully added to task', commentAddedToTask);
+  //   res.json(commentAddedToTask)
+  // }else{
+  //   const commentUpdatedInTask = await Task.updateOne(
+  //     {
+  //       comments: {$elemMatch: commentAddedToTask}
+  //     },
+  //     { $set: {"comments.$.comment": comment} },
+  //     { new: true }
+  //   ).exec();
+  //   console.log('Comment was successfully changed');
+  //   res.json(commentUpdatedInTask)
+  // }
+}
 
 // exports.UpdateTaskByEmployee = async (req, res) => {
 //   const comment = {
@@ -160,26 +180,28 @@ exports.GetAllTasks = async (req, res) => {
 // })
 // }
 
-exports.UpdateTaskByEmployee = async (req, res) => {
-  try {
-    const role = await Role.findById(req.employee.role.id);
-    const task = await Task.findById(req.params.id);
 
-    const newComment = {
-      text: req.body.text,
-      name: role.name,
-      role: req.role.id
-    };
+// exports.UpdateTaskByEmployee = async (req, res) => {
+//   try {
+//     const employee = await Employee.findById(req.employee.id)
+//     const task = await Task.findById(req.params.id);
 
-    task.comments.unshift(newComment);
+//     const newComment = {
+//       byEmployee: req.employee.id,
+//       comment: req.body.comment,
+//       name: employee.name,
+//     };
 
-    await task.save();
-    res.json(task.comments);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
-  }
-}
+//     task.comments.unshift(newComment);
+//     //task.comments.push(newComment);
+
+//     await task.save();
+//     res.json(task.comments);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send('Server error');
+//   }
+// }
 
 exports.DeleteTaskComment = async (req, res) => {
   try {

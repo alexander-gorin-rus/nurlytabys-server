@@ -8,12 +8,12 @@ exports.authEmployee = async (req, res) => {
         const employee = await Employee.findById(req.employee.id)
           .populate('role')
         //res.json(employee)
-        const tasks = await Task.find({ employee })
-          .populate('employee')
-          .exec();
+        // const tasks = await Task.find({ employee })
+        //   .populate('employee')
+        //   .exec();
         res.json({
             employee,
-            tasks
+            //tasks
           })
     } catch (err) {
         console.error(err.message);

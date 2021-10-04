@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema
 
 const TaskSchema = new mongoose.Schema({
-    role: [
+    employee: [
         {
             type: ObjectId,
-            ref: "Role"
+            ref: "Employee"
         }
     ],
     title: {
@@ -25,49 +25,48 @@ const TaskSchema = new mongoose.Schema({
             byEmployee: { type: ObjectId, ref: "Role" }
         }
     ],
-    // comments: [
-    //     {
-    //         comment: String,
-    //         byEmployee: { type: ObjectId, ref: "Role" }
-    //     }
-    // ],
+    comments: [
+        {
+            comment: String,
+            byEmployee: { type: ObjectId, ref: "Role" }
+        }
+    ],
     // comments:[
     //     {
     //         text:String,
     //         postedBy:{ type:ObjectId, ref:"Role" }
     //     }
     // ],
-    comments: [
-        {
-          role: {
-            type: ObjectId,
-            ref: 'Role'
-          },
-          text: {
-            type: String,
-            required: true
-          },
-          name: {
-            type: String
-          },
-          date: {
-            type: Date,
-            default: Date.now
-          }
-        }
-      ],
+    // comments: [
+    //     {
+    //       byEmployee: {
+    //         type: ObjectId,
+    //         ref: 'Employee'
+    //       },
+    //       comment: {
+    //         type: String,
+    //       },
+    //       name: {
+    //         type: String
+    //       },
+    //       date: {
+    //         type: Date,
+    //         default: Date.now
+    //       }
+    //     }
+    //   ],
     opened: [
         {
             open: Boolean,
             default: false,
-            byEmployee: { type: ObjectId, ref: "Role" }
+            byEmployee: { type: ObjectId, ref: "Employee" }
         }
     ],
     downloadedFiles: [
         {
             file: Array,
             default: [],
-            byEmployee: { type: ObjectId, ref: "Role" }
+            byEmployee: { type: ObjectId, ref: "Employee" }
         }
     ],
     start: {
