@@ -33,19 +33,6 @@ exports.UpdateTask = async (req, res) => {
       }
 }
 
-// exports.DeleteTask = async (req, res) => {
-//     try {
-//         const task = await Task.findById(req.params.id);
-//         if (task.employeeId === req.body.employeeId) {
-//           await task.deleteOne();
-//           res.status(200).json("the task has been deleted");
-//         } else {
-//           res.status(403).json("you can delete only your task");
-//         }
-//       } catch (err) {
-//         res.status(500).json(err);
-//       }
-// }
 
 exports.GetTasksByRoleId = async (req, res) => {
   try {
@@ -71,20 +58,6 @@ exports.GetTaskById = async (req, res) => {
       }
 }
 
-exports.TaskTimeline = async (req, res) => {
-    try {
-        const currentEmployee = await Employee.findById(req.params.employeeId);
-        const employeePosts = await Task.find({ employeeId: currentEmployee._id });
-        const friendPosts = await Promise.all(
-          currentEmployee.followings.map((friendId) => {
-            return Task.find({ employeeId: friendId });
-          })
-        );
-        res.status(200).json(employeePosts.concat(...friendPosts));
-      } catch (err) {
-        res.status(500).json(err);
-      }
-}
 
 exports.GetEmployeeTasks = async (req, res) => {
     try {
@@ -96,19 +69,19 @@ exports.GetEmployeeTasks = async (req, res) => {
       }
 }
 
-exports.TaskStatus = async (req, res) => {
-  try {
-    const { taskId, completed } = req.body;
-    let updatedTask = await Task.findByIdAndUpdate(
-      taskId,
-      { completed },
-      { new: true }
-    ).exec()
-    res.json(updatedTask)
-  } catch (err) {
-    console.log(err)
-  }
-}
+// exports.TaskStatus = async (req, res) => {
+//   try {
+//     const { taskId, completed } = req.body;
+//     let updatedTask = await Task.findByIdAndUpdate(
+//       taskId,
+//       { completed },
+//       { new: true }
+//     ).exec()
+//     res.json(updatedTask)
+//   } catch (err) {
+//     console.log(err)
+//   }
+// }
 
 exports.DeleteTask = async (req, res) => {
   try {
@@ -130,5 +103,117 @@ exports.GetAllTasks = async (req, res) => {
     })
   } catch (err) {
     res.status(500).json(err)
+  }
+}
+
+// exports.UpdateTaskByEmployee = async (req, res) => {
+ 
+//     const task = await Task.findById(req.params.taskId).exec();
+//     const employee = await Employee.findById(req.params.id).exec();
+//     const { comment } = req.body;
+
+//     let isExistingObject = await task.comments.find(
+//       (elem) => elem.byEmployee.toString() === employee._id.toString()
+//     )
+     
+//   if(isExistingObject === undefined){
+//     let commentAddedToTask = await Task.findByIdAndUpdate(
+//       task._id,
+//       {
+//         $push: {comments: {comment, byEmployee: employee._id}}
+//       },
+//       { new: true }
+//     ).exec()
+//     console.log('Comment was successfully added to task', commentAddedToTask);
+//     res.json(commentAddedToTask)
+//   }else{
+//     const commentUpdatedInTask = await Task.updateOne(
+//       {
+//         comments: {$elemMatch: commentAddedToTask}
+//       },
+//       { $set: {"comments.$.comment": comment} },
+//       { new: true }
+//     ).exec();
+//     console.log('Comment was successfully changed');
+//     res.json(commentUpdatedInTask)
+//   }
+// }
+
+// exports.UpdateTaskByEmployee = async (req, res) => {
+//   const comment = {
+//     text:req.body.text,
+//     postedBy:req.employee.role._id
+// }
+// Task.findByIdAndUpdate(req.body.taskId,{
+//     $push:{comments:comment}
+// },{
+//     new:true
+// })
+// .populate("comments.postedBy","_id name")
+// .populate("postedBy","_id name")
+// .exec((err,result)=>{
+//     if(err){
+//         return res.status(422).json({error:err})
+//     }else{
+//         res.json(result)
+//     }
+// })
+// }
+
+exports.UpdateTaskByEmployee = async (req, res) => {
+  try {
+    const role = await Role.findById(req.employee.role.id);
+    const task = await Task.findById(req.params.id);
+
+    const newComment = {
+      text: req.body.text,
+      name: role.name,
+      role: req.role.id
+    };
+
+    task.comments.unshift(newComment);
+
+    await task.save();
+    res.json(task.comments);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+}
+
+exports.DeleteTaskComment = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+
+    //Pull out comment
+
+    const comment = task.comments.find(
+      comment => comment.id === req.params.comment_id
+    );
+
+    //Make sure comment exists
+
+    if (!comment) {
+      return res.status(404).json({ msg: 'Comment does not exist' });
+    }
+
+    //Check user
+    if (comment.role.toString() !== req.role.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+
+    //Get remove index
+    const removeIndex = task.comments
+      .map(comment => comment.role.toString())
+      .indexOf(req.user.id);
+
+    task.comments.splice(removeIndex, 1);
+
+    await task.save();
+
+    res.json(task.comments);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
   }
 }

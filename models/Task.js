@@ -14,52 +14,60 @@ const TaskSchema = new mongoose.Schema({
     content: {
         type: String
     },
-    // ratings: [
-    //     {
-    //         star: Number,
-    //         postedBy: {
-    //             type: ObjectId,
-    //             ref: 'User'
-    //         }
-    //     }
-    // ],
     completed: [
         {
-            done: Boolean,
-            default: false,
-            byEmployee: {
-                type: ObjectId,
-                ref: "Role"
-            }
+            complete: String,
+            //default: 'Не выполнено',
+            enum: [
+                'Выполнено',
+                'Не выполнено'
+        ],
+            byEmployee: { type: ObjectId, ref: "Role" }
         }
     ],
+    // comments: [
+    //     {
+    //         comment: String,
+    //         byEmployee: { type: ObjectId, ref: "Role" }
+    //     }
+    // ],
+    // comments:[
+    //     {
+    //         text:String,
+    //         postedBy:{ type:ObjectId, ref:"Role" }
+    //     }
+    // ],
     comments: [
         {
-            comment: String,
-            byEmployee: {
-                type: ObjectId,
-                ref: "Role"
-            }
+          role: {
+            type: ObjectId,
+            ref: 'Role'
+          },
+          text: {
+            type: String,
+            required: true
+          },
+          name: {
+            type: String
+          },
+          date: {
+            type: Date,
+            default: Date.now
+          }
         }
-    ],
+      ],
     opened: [
         {
             open: Boolean,
             default: false,
-            byEmployee: {
-                type: ObjectId,
-                ref: "Role"
-            }
+            byEmployee: { type: ObjectId, ref: "Role" }
         }
     ],
     downloadedFiles: [
         {
-            files: Array,
+            file: Array,
             default: [],
-            byEmployee: {
-                type: ObjectId,
-                ref: "Role"
-            }
+            byEmployee: { type: ObjectId, ref: "Role" }
         }
     ],
     start: {
