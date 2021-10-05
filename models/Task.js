@@ -16,12 +16,7 @@ const TaskSchema = new mongoose.Schema({
     },
     completed: [
         {
-            complete: String,
-            //default: 'Не выполнено',
-            enum: [
-                'Выполнено',
-                'Не выполнено'
-        ],
+            done: Boolean,
             byEmployee: { type: ObjectId, ref: "Role" }
         }
     ],
@@ -31,30 +26,6 @@ const TaskSchema = new mongoose.Schema({
             byEmployee: { type: ObjectId, ref: "Role" }
         }
     ],
-    // comments:[
-    //     {
-    //         text:String,
-    //         postedBy:{ type:ObjectId, ref:"Role" }
-    //     }
-    // ],
-    // comments: [
-    //     {
-    //       byEmployee: {
-    //         type: ObjectId,
-    //         ref: 'Employee'
-    //       },
-    //       comment: {
-    //         type: String,
-    //       },
-    //       name: {
-    //         type: String
-    //       },
-    //       date: {
-    //         type: Date,
-    //         default: Date.now
-    //       }
-    //     }
-    //   ],
     opened: [
         {
             open: Boolean,
@@ -76,7 +47,7 @@ const TaskSchema = new mongoose.Schema({
     finish: {
         //type: Date,
         type: String
-    }
+    },
 },
 {timestamps: true}
 );
