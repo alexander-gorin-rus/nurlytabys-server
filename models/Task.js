@@ -17,7 +17,7 @@ const TaskSchema = new mongoose.Schema({
     completed: [
         {
             done: Boolean,
-            byEmployee: { type: ObjectId, ref: "Role" }
+            byEmployee: { type: ObjectId, ref: "Employee" }
         }
     ],
     comments: [

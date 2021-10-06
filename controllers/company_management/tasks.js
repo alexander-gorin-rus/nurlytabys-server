@@ -71,15 +71,52 @@ exports.GetEmployeeTasks = async (req, res) => {
 }
 
 exports.TaskCompleted = async (req, res) => {
+  const task = await Task.findById(req.params.taskId).exec();
   const employee = await Employee.findById(req.employee.id).exec();
-  const { done } = req.body;
-  const task = await Task.findByIdAndUpdate(req.params.taskId, 
-    {
-      $push: {completed: {done, byEmployee: employee._id}}
-    },
-    { new: true }
-  ).exec();
-  res.json(task)
+  const { done } = req.body
+
+  //check if currently lodded in employee have already added rating to this task
+  let existingRatingObject = task.completed.find(
+      (elem) => elem.byEmployee.toString() === employee._id.toString()
+  );
+
+  if (existingRatingObject === undefined) {
+      let taskStatusComplete = await Task.findByIdAndUpdate(
+          task._id,
+          {
+              $push: { completed: { done, byEmployee: employee._id } },
+          },
+          { new: true }
+      ).exec();
+      console.log("task status changed", taskStatusComplete);
+      res.json(taskStatusComplete)
+  } else {
+      //if an employee has already task status changed, update it
+      const taskStatusCompletedUpdate = await Task.updateOne(
+          {
+              completed: { $elemMatch: existingRatingObject }
+          },
+          { $set: { "completed.$.done": done } },
+          { new: true }
+      ).exec();
+      console.log("taskStatusCompletedUpdate", taskStatusCompletedUpdate);
+      res.json(taskStatusCompletedUpdate)
+  }
+}
+
+
+//exports.TaskCompleted = async (req, res) => {
+  // const employee = await Employee.findById(req.employee.id).exec();
+  // const { done } = req.body;
+  // const task = await Task.findByIdAndUpdate(req.params.taskId, 
+  //   {
+  //     $push: {completed: {done, byEmployee: employee._id}}
+  //   },
+  //   { new: true }
+  // ).exec();
+  // res.json(task)
+
+
   // try {
   //   const employee = await Employee.findById(req.employee.id).exec();
   //   const { done } = req.body;
@@ -93,7 +130,25 @@ exports.TaskCompleted = async (req, res) => {
   // } catch (err) {
   //   console.log(err)
   // }
-}
+
+  // try {
+  //   const task = await Task.findById(req.params.taskId);
+  //   //Check if task status completed was already changed by employee
+  //   if(task.completed.byEmployee.filter(statusDone = statusDone.byEmployee.toString() === req.employee._id).length > 0){
+  //     return res.status(400).json({
+  //       msg: 'Вы уже изменили статус задания на `Выполнено`'
+  //     })
+  //   }
+
+  //   task.completed.done.unshift({employee: req.employee._id});
+
+  //   await task.save();
+
+  //   res.json(task.completed.done)
+  // } catch (err) {
+    
+  // }
+//}
 
 exports.UpdateTaskByEmployee = async (req, res) => {
   const employee = await Employee.findById(req.employee.id).exec();
@@ -192,7 +247,7 @@ exports.DeleteTaskComment = async (req, res) => {
       return res.status(404).json({ msg: 'Comment does not exist' });
     }
 
-    //Check user
+    //Check employee
     if (comment.role.toString() !== req.role.id) {
       return res.status(401).json({ msg: 'User not authorized' });
     }
@@ -200,7 +255,7 @@ exports.DeleteTaskComment = async (req, res) => {
     //Get remove index
     const removeIndex = task.comments
       .map(comment => comment.role.toString())
-      .indexOf(req.user.id);
+      .indexOf(req.employee.id);
 
     task.comments.splice(removeIndex, 1);
 
