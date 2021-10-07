@@ -48,6 +48,10 @@ const TaskSchema = new mongoose.Schema({
         //type: Date,
         type: String
     },
+    backgroungColor: {
+        type: String,
+        default: 'rgb(248, 169, 169)'
+    }
 },
 {timestamps: true}
 );
