@@ -105,6 +105,41 @@ exports.TaskCompleted = async (req, res) => {
 }
 
 
+exports.TaskOpened = async (req, res) => {
+  const task = await Task.findById(req.params.taskId).exec();
+  const employee = await Employee.findById(req.employee.id).exec();
+  const { open } = req.body
+
+  //check if currently lodded in employee have already added rating to this task
+  let existingRatingObject = task.opened.find(
+      (elem) => elem.byEmployee.toString() === employee._id.toString()
+  );
+
+  if (existingRatingObject === undefined) {
+      let taskStatusComplete = await Task.findByIdAndUpdate(
+          task._id,
+          {
+              $push: { opened: { open, byEmployee: employee._id } },
+          },
+          { new: true }
+      ).exec();
+      console.log("task status changed", taskStatusComplete);
+      res.json(taskStatusComplete)
+  } else {
+      //if an employee has already task status changed, update it
+      const taskStatusCompletedUpdate = await Task.updateOne(
+          {
+              opened: { $elemMatch: existingRatingObject }
+          },
+          { $set: { "opened.$.open": open } },
+          { new: true }
+      ).exec();
+      console.log("taskStatusCompletedUpdate", taskStatusCompletedUpdate);
+      res.json(taskStatusCompletedUpdate)
+  }
+}
+
+
 //exports.TaskCompleted = async (req, res) => {
   // const employee = await Employee.findById(req.employee.id).exec();
   // const { done } = req.body;
