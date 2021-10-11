@@ -29,6 +29,7 @@ const TaskSchema = new mongoose.Schema({
     opened: [
         {
             open: Number,
+            default: 0,
             byEmployee: { type: ObjectId, ref: "Employee" }
         }
     ],

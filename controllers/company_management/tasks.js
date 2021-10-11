@@ -106,8 +106,8 @@ exports.TaskCompleted = async (req, res) => {
 
 
 exports.TaskOpened = async (req, res) => {
-  const task = await Task.findById(req.params.taskId).exec();
-  const employee = await Employee.findById(req.employee.id).exec();
+  const task = await Task.findById(req.params._id).exec();
+  const employee = await Employee.findById(req.employee._id).exec();
   const { open } = req.body
 
   //check if currently lodded in employee have already added rating to this task

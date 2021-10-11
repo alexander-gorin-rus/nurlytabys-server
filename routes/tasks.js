@@ -20,7 +20,7 @@ const router = express.Router();
 router.post('/create-task', CreateTask);
 router.put('/update-task/:id', UpdateTask);
 router.put('/task-completed/:taskId', auth, TaskCompleted);
-router.put('/task-opened/:taskId', auth, TaskOpened);
+router.put('/task-opened/:_id', auth, TaskOpened);
 router.delete('/delete-task/:id', DeleteTask);
 router.get('/get-task/:id', GetTaskById);
 router.get('/get-employee-tasks/:employeename', GetEmployeeTasks);
