@@ -13,9 +13,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 app.use('/uploads', express.static('uploads'));
-app.use('/uploadsCategory', express.static('uploadsCategory'));
-app.use('/uploadsMainPageInfo', express.static('uploadsMainPageInfo'));
-app.use('/uploadsImages', express.static('uploadsImages'));
 
 //Import Mongo Database
 const mongoConnection = require('./config/mongodb');

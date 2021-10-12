@@ -6,7 +6,7 @@ const Video = require('../../models/Video');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'uploadsCategory/')
+      cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
       cb(null, `${Date.now()}_${file.originalname}`)
@@ -47,7 +47,7 @@ exports.CategoryThumbnail = (req, res) => {
     ffmpeg(req.body.filePath)
         .on('filenames', function(filenames) {
             console.log('Will generate ' + filenames.join(', '));
-            thumbsFilePath = "uploadsCategory/thumbnails/" + filenames[0];
+            thumbsFilePath = "uploads/thumbnails/" + filenames[0];
         })
         .on('end', function() {
             console.log('Screenshots taken');
@@ -60,7 +60,7 @@ exports.CategoryThumbnail = (req, res) => {
         .screenshots({
             // Will take screens at 20%, 40%, 60% and 80% of the video
             count: 1,
-            folder: 'uploadsCategory/thumbnails/',
+            folder: 'uploads/thumbnails/',
             size: '320x240',
             filename: 'thumbnail-%b.png'
         });
