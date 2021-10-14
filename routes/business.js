@@ -4,8 +4,7 @@ const {
     GetAllBusinesses,
     GetBusinessById,
     UpdateBusiness,
-    DeleteBusiness,
-    ShowAllBusinesses,
+    DeleteBusiness
 } = require('../controllers/company_management/business');
 const auth = require('../middleware/auth');
 
