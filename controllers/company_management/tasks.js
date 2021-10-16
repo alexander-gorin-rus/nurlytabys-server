@@ -1,5 +1,6 @@
 const Task = require('../../models/Task');
 const Employee = require('../../models/Employee');
+const TasksCount = require('../../models/TasksCount');
 
 exports.CreateTask = async (req, res) => {
   try {
@@ -60,15 +61,15 @@ exports.GetTaskById = async (req, res) => {
 }
 
 
-exports.GetEmployeeTasks = async (req, res) => {
-    try {
-        const employee = await Employee.findOne({ employeename: req.params.employeename });
-        const posts = await Task.find({ employeeId: employee._id });
-        res.status(200).json(posts);
-      } catch (err) {
-        res.status(500).json(err);
-      }
-}
+// exports.GetEmployeeTasks = async (req, res) => {
+//     try {
+//         const employee = await Employee.findOne({ employeename: req.params.employeename });
+//         const posts = await Task.find({ employeeId: employee._id });
+//         res.status(200).json(posts);
+//       } catch (err) {
+//         res.status(500).json(err);
+//       }
+// }
 
 exports.TaskCompleted = async (req, res) => {
   const task = await Task.findById(req.params.taskId).exec();
@@ -175,51 +176,6 @@ exports.GetAllTasks = async (req, res) => {
 }
 
 
-
-// exports.UpdateTaskByEmployee = async (req, res) => {
-//   const comment = {
-//     text:req.body.text,
-//     postedBy:req.employee.role._id
-// }
-// Task.findByIdAndUpdate(req.body.taskId,{
-//     $push:{comments:comment}
-// },{
-//     new:true
-// })
-// .populate("comments.postedBy","_id name")
-// .populate("postedBy","_id name")
-// .exec((err,result)=>{
-//     if(err){
-//         return res.status(422).json({error:err})
-//     }else{
-//         res.json(result)
-//     }
-// })
-// }
-
-
-// exports.UpdateTaskByEmployee = async (req, res) => {
-//   try {
-//     const employee = await Employee.findById(req.employee.id)
-//     const task = await Task.findById(req.params.id);
-
-//     const newComment = {
-//       byEmployee: req.employee.id,
-//       comment: req.body.comment,
-//       name: employee.name,
-//     };
-
-//     task.comments.unshift(newComment);
-//     //task.comments.push(newComment);
-
-//     await task.save();
-//     res.json(task.comments);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send('Server error');
-//   }
-// }
-
 exports.DeleteTaskComment = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
@@ -254,5 +210,31 @@ exports.DeleteTaskComment = async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
+  }
+}
+
+exports.UpdateTasksCount = async (req, res) => {
+  try {
+    const tasksCount = await Task.findByIdAndUpdate(req.params._id, req.body, { new: true })
+        .save();
+        res.json( tasksCount )
+} catch (err) {
+    return res
+        .status(400)
+        .json({ errors: [{ 
+            msg: 'Ошибка при изменении количества заданий' 
+    }]});
+}
+}
+
+exports.GetTasksCount = async (req, res) => {
+  try {
+    const employee = await Employee.findById(req.params.id)
+    const tasksCount = await TasksCount.find({ employee: employee._id })
+      .populate('employee')
+      .exec()
+    res.status(200).json(tasksCount)
+  } catch (err) {
+    res.status(500).json(err)
   }
 }

@@ -8,9 +8,6 @@ const TaskSchema = new mongoose.Schema({
             ref: "Employee"
         }
     ],
-    title: {
-        type: String
-    },
     content: {
         type: String
     },

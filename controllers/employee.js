@@ -7,10 +7,6 @@ exports.authEmployee = async (req, res) => {
     try {
         const employee = await Employee.findById(req.employee.id)
           .populate('role')
-        //res.json(employee)
-        // const tasks = await Task.find({ employee })
-        //   .populate('employee')
-        //   .exec();
         res.json({
             employee,
             //tasks

@@ -48,27 +48,6 @@ exports.GetRoleById = async (req, res) => {
     } catch (err) {
         console.log(err);
     }
-    // try {
-    //     const role = await Role.findById(req.params.id);
-    //     if(!role){
-    //         return res.status(404).json({
-    //             errors: [{
-    //                 msg: "Такой роли не найдено"
-    //             }]
-    //         })
-    //     }else{
-    //         res.json({
-    //             success: true,
-    //             role
-    //         })
-    //     }
-    // } catch (err) {
-    //     return res
-    //         .status(400)
-    //         .json({ errors: [{ 
-    //             msg: 'Ошибка при отображении ролей' 
-    //     }]});
-    // }
 }
 
 exports.UpdateRole = async (req, res) => {
