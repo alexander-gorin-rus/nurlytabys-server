@@ -26,10 +26,10 @@ const TaskSchema = new mongoose.Schema({
             byEmployee: { type: ObjectId, ref: "Role" }
         }
     ],
-    opened: [
+    //English Past Simple read
+    read: [
         {
-            open: Number,
-            default: 0,
+            ok: Boolean,
             byEmployee: { type: ObjectId, ref: "Employee" }
         }
     ],

@@ -5,13 +5,12 @@ const {
     GetTaskById,
     DeleteTask,
     GetEmployeeTasks,
-    GetTasksByRoleId,
     GetAllTasks,
     UpdateTaskByEmployee,
     DeleteTaskComment,
     GetTasksByEmployee,
     TaskCompleted,
-    TaskOpened
+    TaskRead
 
 } = require('../controllers/company_management/tasks');
 const auth = require('../middleware/auth');
@@ -20,7 +19,7 @@ const router = express.Router();
 router.post('/create-task', CreateTask);
 router.put('/update-task/:id', UpdateTask);
 router.put('/task-completed/:taskId', auth, TaskCompleted);
-router.put('/task-opened/:_id', auth, TaskOpened);
+router.put('/task-read/:taskId', auth, TaskRead);
 router.delete('/delete-task/:id', DeleteTask);
 router.get('/get-task/:id', GetTaskById);
 router.get('/get-employee-tasks/:employeename', GetEmployeeTasks);
