@@ -214,10 +214,12 @@ exports.DeleteTaskComment = async (req, res) => {
 }
 
 exports.UpdateTasksCount = async (req, res) => {
+  const { count } = req.body
   try {
-    const tasksCount = await Task.findByIdAndUpdate(req.params._id, req.body, { new: true })
-        .save();
-        res.json( tasksCount )
+    const tasksCount = await TasksCount.findByIdAndUpdate(req.params.tasksCountId, count, { new: true })
+      .populate('employee')
+      .save();
+      res.json( tasksCount )
 } catch (err) {
     return res
         .status(400)

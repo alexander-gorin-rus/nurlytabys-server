@@ -25,7 +25,7 @@ router.put('/task-read/:taskId', auth, TaskRead);
 router.delete('/delete-task/:id', DeleteTask);
 router.get('/get-task/:id', GetTaskById);
 router.get('/tasks-count/:id', GetTasksCount);
-router.put('/tasks-count-update/:taskId', UpdateTasksCount);
+router.post('/tasks-count-update/:tasksCountId',auth, UpdateTasksCount);
 //router.get('/get-employee-tasks/:employeename', GetEmployeeTasks);
 router.post('/task-update/comment/:taskId',auth, UpdateTaskByEmployee);
 router.delete('/task-delete/:id', DeleteTask);
