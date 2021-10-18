@@ -213,6 +213,24 @@ exports.DeleteTaskComment = async (req, res) => {
   }
 }
 
+exports.CreateTaskCount = async (req, res) => {
+  try {
+    //const employee = await Employee.findById(req.params._id) 
+    // const tasksCount = new TasksCount({
+    //   employee: employee, 
+    //   count: count
+    // })
+    const countTasks = await new TasksCount(req.body).save();
+      res.json(countTasks)
+  } catch (err) {
+      return res
+          .status(400)
+          .json({ errors: [{ 
+              msg: 'Ошибка при создании роли' 
+      }]});
+  }
+}
+
 exports.UpdateTasksCount = async (req, res) => {
   const { count } = req.body
   try {

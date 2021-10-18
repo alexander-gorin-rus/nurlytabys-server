@@ -3,12 +3,13 @@ const { ObjectId } = mongoose.Schema
 
 const TasksCountSchema = new mongoose.Schema({
     count: {
-        type: Number
+        type: Number,
+        default: 0
     },
     employee: { 
         type: ObjectId, 
         ref: "Employee" 
-    }    
+    },    
 },
 {timestamps: true}
 );
