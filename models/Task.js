@@ -27,6 +27,7 @@ const TaskSchema = new mongoose.Schema({
     read: [
         {
             ok: Boolean,
+            default: false,
             byEmployee: { type: ObjectId, ref: "Employee" }
         }
     ],
