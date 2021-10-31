@@ -60,17 +60,6 @@ exports.GetTaskById = async (req, res) => {
       }
 }
 
-
-// exports.GetEmployeeTasks = async (req, res) => {
-//     try {
-//         const employee = await Employee.findOne({ employeename: req.params.employeename });
-//         const posts = await Task.find({ employeeId: employee._id });
-//         res.status(200).json(posts);
-//       } catch (err) {
-//         res.status(500).json(err);
-//       }
-// }
-
 exports.TaskCompleted = async (req, res) => {
   const task = await Task.findById(req.params.taskId).exec();
   const employee = await Employee.findById(req.employee.id).exec();
@@ -213,29 +202,28 @@ exports.DeleteTaskComment = async (req, res) => {
   }
 }
 
-exports.CreateTaskCount = async (req, res) => {
+exports.CreateTasksCount = async (req, res) => {
   try {
-    //const employee = await Employee.findById(req.params._id) 
-    // const tasksCount = new TasksCount({
-    //   employee: employee, 
-    //   count: count
-    // })
-    const countTasks = await new TasksCount(req.body).save();
+    const countTasks = await new TasksCount(req.body)
+      .save();
       res.json(countTasks)
   } catch (err) {
       return res
           .status(400)
           .json({ errors: [{ 
-              msg: 'Ошибка при создании роли' 
+              msg: 'Ошибка учета количества заданий' 
       }]});
   }
 }
 
-exports.UpdateTasksCount = async (req, res) => {
-  const { count } = req.body
+exports.TasksCountUpdate = async (req, res) => {
+  const { count } = req.body;
+  //const employee = await Employee.findById(req.params.id)
   try {
-    const tasksCount = await TasksCount.findByIdAndUpdate(req.params.tasksCountId, count, { new: true })
-      .populate('employee')
+    const tasksCount = await TasksCount.findByIdAndUpdate(
+      req.params.taskId,
+      //{employeeId: employee._id},
+      count, { new: true })
       .save();
       res.json( tasksCount )
 } catch (err) {
@@ -250,8 +238,7 @@ exports.UpdateTasksCount = async (req, res) => {
 exports.GetTasksCount = async (req, res) => {
   try {
     const employee = await Employee.findById(req.params.id)
-    const tasksCount = await TasksCount.find({ employee: employee._id })
-      .populate('employee')
+    const tasksCount = await TasksCount.find({ employeeId: employee._id })
       .exec()
     res.status(200).json(tasksCount)
   } catch (err) {

@@ -12,8 +12,8 @@ const {
     TaskCompleted,
     TaskRead,
     GetTasksCount,
-    UpdateTasksCount,
-    CreateTaskCount
+    TasksCountUpdate,
+    CreateTasksCount
 
 } = require('../controllers/company_management/tasks');
 const auth = require('../middleware/auth');
@@ -26,9 +26,9 @@ router.put('/task-read/:taskId', auth, TaskRead);
 router.delete('/delete-task/:id', DeleteTask);
 router.get('/get-task/:id', GetTaskById);
 router.get('/tasks-count/:id', GetTasksCount);
-router.post('/tasks-count-create', CreateTaskCount);
+router.post('/tasks-count-create', CreateTasksCount);
 //router.post('/tasks-count-create', auth, CreateTaskCount);
-router.post('/tasks-count-update/:tasksCountId',auth, UpdateTasksCount);
+router.post('/tasks-count-update/:taskId', TasksCountUpdate);
 //router.get('/get-employee-tasks/:employeename', GetEmployeeTasks);
 router.post('/task-update/comment/:taskId',auth, UpdateTaskByEmployee);
 router.delete('/task-delete/:id', DeleteTask);

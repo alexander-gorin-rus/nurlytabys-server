@@ -6,7 +6,7 @@ const TasksCountSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    employee: { 
+    employeeId: { 
         type: ObjectId, 
         ref: "Employee" 
     },    
