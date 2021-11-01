@@ -14,7 +14,8 @@ router.post('/create-role', auth, CreateRole);
 router.get('/get-roles', GetAllRoles);
 //router.get('/get-role-by-id/:id', auth, GetRoleById);
 router.get('/get-role-by-id/:id', GetRoleById);
-router.put('/update-role/:id', auth, UpdateRole);
+router.put('/update-role/:id', UpdateRole);
+//router.put('/update-role/:id', auth, UpdateRole);
 router.delete('/delete-role/:id', auth, DeleteRole)
 
 module.exports = router

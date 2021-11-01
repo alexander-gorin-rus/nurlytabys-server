@@ -52,7 +52,10 @@ exports.GetRoleById = async (req, res) => {
 
 exports.UpdateRole = async (req, res) => {
     try {
-        const updatedRole = await Role.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        const updatedRole = await Role.findByIdAndUpdate(
+            req.params.id, 
+            req.body, 
+            { new: true });
         res.json(updatedRole)
     } catch (err) {
             return res

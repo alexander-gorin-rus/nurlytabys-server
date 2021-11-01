@@ -216,21 +216,34 @@ exports.CreateTasksCount = async (req, res) => {
   }
 }
 
-exports.TasksCountUpdate = async (req, res) => {
-  const { count } = req.body;
-  //const employee = await Employee.findById(req.params.id)
+exports.UpdateRole = async (req, res) => {
   try {
-    const tasksCount = await TasksCount.findByIdAndUpdate(
-      req.params.taskId,
-      //{employeeId: employee._id},
-      count, { new: true })
-      .save();
-      res.json( tasksCount )
+      const updatedRole = await Role.findByIdAndUpdate(
+          req.params.id, 
+          req.body, 
+          { new: true });
+      res.json(updatedRole)
+  } catch (err) {
+          return res
+          .status(400)
+          .json({ errors: [{ 
+              msg: 'Не удалось изменить роль' 
+      }]});
+  }
+}
+
+exports.TasksCountUpdate = async (req, res) => {
+  try {
+    const updateTasksCount = await TasksCount.findByIdAndUpdate(
+        req.params.id, 
+        req.body, 
+        { new: true });
+    res.json (updateTasksCount)
 } catch (err) {
-    return res
+        return res
         .status(400)
         .json({ errors: [{ 
-            msg: 'Ошибка при изменении количества заданий' 
+            msg: 'Не удалось изменить количество заданий' 
     }]});
 }
 }
