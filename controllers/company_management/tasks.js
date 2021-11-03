@@ -258,3 +258,13 @@ exports.GetTasksCount = async (req, res) => {
     res.status(500).json(err)
   }
 }
+
+exports.GetTasksCountById = async (req, res) => {
+  try {
+    const tasksCount = await TasksCount.findById(req.params.id)
+      .exec()
+    res.status(200).json(tasksCount)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}

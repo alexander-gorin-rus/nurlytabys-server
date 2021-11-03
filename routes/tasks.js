@@ -13,7 +13,8 @@ const {
     TaskRead,
     GetTasksCount,
     TasksCountUpdate,
-    CreateTasksCount
+    CreateTasksCount,
+    GetTasksCountById
 
 } = require('../controllers/company_management/tasks');
 const auth = require('../middleware/auth');
@@ -26,6 +27,7 @@ router.put('/task-read/:taskId', auth, TaskRead);
 router.delete('/delete-task/:id', DeleteTask);
 router.get('/get-task/:id', GetTaskById);
 router.get('/tasks-count/:id', GetTasksCount);
+router.get('/tasks-count-by-id/:id', GetTasksCountById);
 router.post('/tasks-count-create', CreateTasksCount);
 //router.post('/tasks-count-create', auth, CreateTaskCount);
 router.put('/tasks-count-update/:id', TasksCountUpdate);
