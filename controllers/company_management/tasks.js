@@ -37,9 +37,10 @@ exports.UpdateTask = async (req, res) => {
 exports.GetTasksByEmployee = async (req, res) => {
   try {
     const employee = await Employee.findById(req.params.id);
-    const tasks = await Task.find({ employee: employee._id })
-      .populate('employee')
+    const tasks = await Task.find({ employees: employee._id })
+      .populate('employees')
       .populate('comments')
+      .populate('fromWhom')
       res.status(200).json({tasks, length: tasks.length});
     } catch (err) {
       res.status(500).json(err);
@@ -50,7 +51,7 @@ exports.GetTasksByEmployee = async (req, res) => {
 exports.GetTaskById = async (req, res) => {
     try {
         const task = await Task.findById(req.params.id)
-          .populate('employee')
+          .populate('employees')
           .exec();      
         res.json({
           task
@@ -153,7 +154,8 @@ exports.DeleteTask = async (req, res) => {
 exports.GetAllTasks = async (req, res) => {
   try {
     const tasks = await Task.find({})
-      .populate('employee')
+      .populate('employees')
+      .populate('fromWhom')
       .exec()
     res.status(200).json({
       tasks,

@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema
 
 const TaskSchema = new mongoose.Schema({
-    employee: [
+    fromWhom: {
+        type: ObjectId,
+        ref: 'Employee'
+    },
+    employees: [
         {
             type: ObjectId,
             ref: "Employee"
