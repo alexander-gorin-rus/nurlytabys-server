@@ -47,6 +47,19 @@ exports.GetTasksByEmployee = async (req, res) => {
     }
 }
 
+exports.GetTasksFromEmployee = async (req, res) => {
+  try {
+    const employee = await Employee.findById(req.params.id);
+    const tasks = await Task.find({ fromWhom: employee._id })
+      .populate('employees')
+      .populate('fromWhom')
+      .populate('comments')
+      res.status(200).json({tasks});
+    } catch (err) {
+      res.status(500).json(err);
+    }
+}
+
 
 exports.GetTaskById = async (req, res) => {
     try {

@@ -2,9 +2,12 @@ const Business = require('../../models/Business');
 
 exports.CreateBusiness = async (req, res) => {
     try {
-        const business = await new Business(req.body.values)
+        const business = await new Business(req.body)
             .save();
-            res.send(business)
+            res.json({
+                success: true,
+                business
+            })
     } catch (err) {
         console.log(err);
         return res

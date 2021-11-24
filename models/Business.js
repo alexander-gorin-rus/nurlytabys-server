@@ -3,26 +3,17 @@ const mongoose = require('mongoose');
 // const dateKz = moment.tz.names("Qazakhstan/Qaragandy")
 
 const BusinessSchema = mongoose.Schema({
-    title: {
-        type: String,
-        // required: true
-    },
     content: {
         type: String,
         required: true
     },
     start: {
-        type: String
-        // type: Date,
-        // default: Date.now()
+        type: Date,
+        default: Date.now()
     },
     finish: {
         type: String
         //type: Date
-    },
-    allDay: {
-        type: Boolean,
-        default: false
     },
     done: {
         type: Boolean,

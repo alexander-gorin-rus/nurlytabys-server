@@ -10,7 +10,7 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
-router.post('/business-create', auth, CreateBusiness);
+router.post('/business-create', CreateBusiness);
 router.get('/get-all-businesses', auth,  GetAllBusinesses);
 router.get('/get-business-by-id/:id', auth,  GetBusinessById);
 router.put('/update-business/:id',  auth, UpdateBusiness);
